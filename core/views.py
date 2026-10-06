@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.db.models import Sum
 from .models import Student, FeeStructure
 from .forms import PaymentForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
+@login_required
 def student_list(request):
     students = Student.objects.all()
     data = []
@@ -18,7 +21,11 @@ def student_list(request):
             'total_due': total_due,
             'balance': balance,
         })
-    return render(request, 'core/student_list.html', {'data': data})
+    is_commitee = request.user.groups.filter(name='Committee').exists()
+    return render(request, 'core/student_list.html', {
+        'data': data,
+        'is_committee': is_commitee
+    })
 
 def add_payment(request):
     if request.method == 'POST':
