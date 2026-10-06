@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Record Payment - EduPay Malawi</title>
+</head>
+<body>
+    <h1>Record a Payment</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Payment</button>
+    </form>
+    <p><a href="{% url 'student_list' %}">Back to Student Overview</a></p>
+</body>
+</html>
